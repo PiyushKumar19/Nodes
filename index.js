@@ -12,10 +12,8 @@ const port = 3000;
  }
 
  function handleFirstRequest(req, resp) {
-    // Taking counter data from query
-    let counter = req.query.counter;
-    // let bod = req.body.count1;
-    // let headerCount = req.header.counter;
+    // Taking counter data from params
+    let counter = req.params.counter;
 
     let sum = calculateSum(counter);
     let str = 'The sum is '+sum;
@@ -26,15 +24,18 @@ const port = 3000;
     console.log("Server is running on http://localhost:"+port);
  }
 
- function handleSecond(req, resp) {
-    let name = req.params.username;
-    let str = 'Hello '+name+" ! ;)";
-    resp.send(str);
+ function handleHeaders(req, res) {
+   // req.headers.counter -> collects the counter value from the headers in post request
+   let counter = req.headers.counter;
+   console.log(req.headers);
+   let sum = calculateSum(counter);
+   let str = 'The sum is '+sum;
+
+   res.send(str);
  }
 
- app.get('/handleSum', handleFirstRequest);
- // :username -> this makes the route to accept any value
- //     that can be accessed with -> req.params.username, in any method
- app.get('/:username', handleSecond);
+ app.get('/:counter', handleFirstRequest);
+
+ app.post('/handleHeaders', handleHeaders);
  
  app.listen(port, startedMessage);
