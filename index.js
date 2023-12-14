@@ -89,7 +89,16 @@ app.use(middleware1);
  }
  app.get('/getHtml', handleHtml);
 
+
+ function handleQuery(req, res) {
+   let result = {
+      sum: calculateSum(req.query.counter),
+   }
+   res.send(result);
+ }
+ app.get('/handleQuery', handleQuery);
  
+
  app.get('/:counter', handleParams);
 
  // middlewares can be called for a particular route
